@@ -1,0 +1,102 @@
+You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
+
+You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+
+Example 1:
+
+
+Input: l1 = [2,4,3], l2 = [5,6,4]
+Output: [7,0,8]
+Explanation: 342 + 465 = 807.
+Example 2:
+
+Input: l1 = [0], l2 = [0]
+Output: [0]
+Example 3:
+
+Input: l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]
+Output: [8,9,9,9,0,0,0,1]
+ 
+
+Constraints:
+
+The number of nodes in each linked list is in the range [1, 100].
+0 <= Node.val <= 9
+It is guaranteed that the list represents a number that does not have leading zeros.
+
+rahulvarma5297
+
+Intuition:
+
+The Intuition is to iterate through two linked lists representing non-negative integers in reverse order, starting from the least significant digit. It performs digit-wise addition along with a carry value and constructs a new linked list to represent the sum. The process continues until both input lists and the carry value are exhausted. The resulting linked list represents the sum of the input numbers in the correct order.
+
+Explanation:
+
+1. Create a placeholder node called dummyHead with a value of 0. This node will hold the resulting linked list.
+2. Initialize a pointer called tail and set it to dummyHead. This pointer will keep track of the last node in the result list.
+3. Initialize a variable called carry to 0. This variable will store the carry value during addition.
+4. Start a loop that continues until there are no more digits in both input lists (l1 and l2) and there is no remaining carry value.
+5. Inside the loop:
+	Check if there is a digit in the current node of l1. If it exists, assign its value to a variable called digit1. Otherwise, set digit1 to 0.
+	Check if there is a digit in the current node of l2. If it exists, assign its value to a variable called digit2. Otherwise, set digit2 to 0.
+	Add the current digits from l1 and l2, along with the carry value from the previous iteration, and store the sum in a variable called sum.
+	Calculate the unit digit of sum by taking the modulus (%) of sum by 10. This digit will be placed in a new node for the result.
+	Update the carry variable by dividing sum by 10 and taking the integer division (/) part. This gives us the carry value for the next iteration.
+	Create a new node with the calculated digit as its value.
+	Attach the new node to the tail node of the result list.
+	Move the tail pointer to the newly added node.
+	Move to the next nodes in both l1 and l2, if they exist. If either list is exhausted, set the corresponding pointer to nullptr.
+6. After the loop, obtain the actual result list by skipping the dummyHead node.
+7. Return the resulting list.
+
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+		# dummy head, we will skip it when we return the result
+        head_val = ListNode(0)
+        # to track the last node
+        tail = head_val
+        carry = 0
+
+        while l1 or l2 or carry != 0:
+            digit1 = l1.val if l1 else 0
+            digit2 = l2.val if l2 else 0
+
+            # for example digit1 + digit2 = 12
+            sumval = digit1 + digit2 + carry
+            digit = sumval % 10
+            carry = sumval // 10
+
+            # create a new node with digit
+            new_node = ListNode(digit)
+            # assign tail.next to the new node
+            tail.next = new_node
+            # move tail to the new node
+            tail = tail.next
+
+            # move l1, l2 to the new node
+            l1 = l1.next if l1 else None
+            l2 = l2.next if l2 else None
+        
+        # head_val.next is the result
+        result = head_val.next
+        return result
+
+
+The time complexity of the addTwoNumbers function is O(max(m, n)), where m and n are the lengths of the input linked lists.
+This is because we need to traverse both input lists once, which takes O(max(m, n)) time.
+The space complexity of the function is also O(max(m, n)), because we need to create a new linked list to store the sum of the two input lists, which can have at most max(m, n) + 1 nodes 1.
+
+In the while loop, we perform constant time operations such as addition, modulo, and integer division.
+These operations take O(1) time. We also create a new node for each digit in the sum, which takes O(1) time.
+Therefore, the time complexity of the while loop is O(max(m, n)).
+
+In terms of space complexity, we create a new linked list to store the sum of the two input lists.
+This linked list can have at most max(m, n) + 1 nodes, which takes O(max(m, n)) space.
+
+In summary, the time complexity of the addTwoNumbers function is O(max(m, n)), and the space complexity is also O(max(m, n)) 1.
