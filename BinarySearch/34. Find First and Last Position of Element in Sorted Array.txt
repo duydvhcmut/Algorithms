@@ -1,0 +1,71 @@
+Medium
+
+Given an array of integers nums sorted in non-decreasing order, find the starting and ending position of a given target value.
+
+If target is not found in the array, return [-1, -1].
+
+You must write an algorithm with O(log n) runtime complexity.
+
+ 
+
+Example 1:
+
+Input: nums = [5,7,7,8,8,10], target = 8
+Output: [3,4]
+Example 2:
+
+Input: nums = [5,7,7,8,8,10], target = 6
+Output: [-1,-1]
+Example 3:
+
+Input: nums = [], target = 0
+Output: [-1,-1]
+ 
+
+Constraints:
+
+0 <= nums.length <= 10^5
+-10^9 <= nums[i] <= 10^9
+nums is a non-decreasing array.
+-10^9 <= target <= 10^9
+
+Solution:
+
+This is a binary search problem. Just do binary search as usual.
+Because this is non-decreasing array so there may be 2 same number, for e.g nums = [1,2,3,4,5,5,6,7]
+When mid is found, do binary search on the left and the right part of the mid to find starting position and ending position. => 2 binary search problems.
+
+For example, mid = 4, left side is [1,2,3,4], right side is [5,6,7] => left position is 4, right position is 5
+
+class Solution(object):
+    def searchRange(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        left = 0
+        right = len(nums) - 1
+
+        leftpos = self.findPos(nums, left, right, target, True)
+        rightpos = self.findPos(nums, left, right, target)
+
+        return [leftpos, rightpos]
+    
+    def findPos(self, nums, left, right, target, findLeft = False):
+        result = -1
+        while left <= right:
+            mid = (left + right) // 2
+            if nums[mid] == target:
+                result = mid
+                # when mid is found, do binary search on the left and the right part of the mid
+                if findLeft:
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            elif nums[mid] > target:
+                # check the left part
+                right = mid - 1
+            else:
+                left = mid + 1
+        return result
