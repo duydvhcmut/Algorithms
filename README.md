@@ -3,6 +3,7 @@
 ## Binary Search
  - Search in Rotated Sorted Array - Binary Search
  - Find First and Last Position of Element in Sorted Array
+ - Search in Rotated Sorted Array II
 
 ## Bit Manipulation
  - Sum of Two Integers - Mask
