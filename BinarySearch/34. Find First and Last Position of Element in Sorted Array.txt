@@ -69,3 +69,7 @@ class Solution(object):
             else:
                 left = mid + 1
         return result
+
+
+Time complexity: O(log N). This is because the function uses binary search
+Space complexity: O(1) because the function only uses a constant amount of extra space to store the left, right, and mid indices.
