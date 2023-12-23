@@ -1,0 +1,141 @@
+Medium
+
+There is an integer array nums sorted in ascending order (with distinct values).
+
+Prior to being passed to your function, nums is possibly rotated at an unknown pivot index k (1 <= k < nums.length) such that the resulting array is [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]] (0-indexed). For example, [0,1,2,4,5,6,7] might be rotated at pivot index 3 and become [4,5,6,7,0,1,2].
+
+Given the array nums after the possible rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums.
+
+You must write an algorithm with O(log n) runtime complexity.
+
+ 
+
+Example 1:
+
+Input: nums = [4,5,6,7,0,1,2], target = 0
+Output: 4
+Example 2:
+
+Input: nums = [4,5,6,7,0,1,2], target = 3
+Output: -1
+Example 3:
+
+Input: nums = [1], target = 0
+Output: -1
+ 
+
+Constraints:
+
+1 <= nums.length <= 5000
+-10^4 <= nums[i] <= 10^4
+All values of nums are unique.
+nums is an ascending array that is possibly rotated.
+-10^4 <= target <= 10^4
+
+
+1. Understand Binary Search
+
+For example, find "target" in a sorted array A = [1,5,6,7,8,11,15,16,18], return index of "target".
+
+Binary Search:
+	*) Find the midpoint,
+		if target < midpoint then we search on the left of the array
+		else we search on the right side of the array
+	*) Repeat above step until midpoint equals target. Otherwise, target doesn't exist
+	
+Code:
+
+def binarysearch(input, target):
+	left = 0
+	right = len(input) - 1
+	
+	while left <= right:
+		# calculate midpoint
+		mid = (left + right) // 2
+		
+		# return index of target if midpoint equals target
+		if input[mid] == target:
+			return mid
+		# target on the left side of midpoint
+		if target < input[mid]:
+			# search on the left side of the array, move right to mid - 1
+			right = mid - 1
+		else:
+			# search on the right side of the array, move left to mid + 1
+			left = mid + 1
+	# target doesn't exist
+	return -1
+
+
+or we can do recursive:
+
+def binarysearch(input, left, right, target):
+	if left <= right:
+		# calculate midpoint
+		mid = (left + right) // 2
+		
+		# return index of target if midpoint equals target
+		if input[mid] == target:
+			return mid
+		# target on the left side of midpoint
+		if target < input[mid]:
+			# search on the left side of the array, move right to mid - 1
+			return binarysearch(input, left, mid - 1, target)
+		else:
+			# search on the right side of the array, move left to mid + 1
+			return binarysearch(input, mid +1, right, target)
+	else:
+		# target doesn't exist
+		return -1
+
+if __name__ == '__main__':
+	A = [1,5,6,7,8,11,15,16,18]
+	left = 0
+	right = len(A) - 1
+	target = 6
+	print(binarysearch(A, left, right, target)
+
+
+2. Solution:
+
+We use Binary Search to solve the above problem. Firstly, while left <= right, we calcule the midpoint and check below:
+Now the array will be separated to 2 parts. Because the array is rotated so 1 part will always be sorted.
+For example, nums = [6,7,0,1,2,3,4,5], midpoint is at 1, left part is [6,7,0], right part is [2,3,4,5]
+
+Secondly, we find the sorted part,
+for example: if nums[left] <= nums[mid], it means that the left side is sorted.
+				We check if target is in [left----target----midpoint],
+					if yes, move right to mid - 1
+					else, move left to mid + 1
+			 else, it means that the right side is sorted.
+				We check if target is in [mid----target----right],
+					if yes, move left to mid + 1
+					else, move right to mid -1
+
+def SearchRotatedArray(nums, target):
+	left = 0
+	right = len(nums) - 1
+	
+	while left <= right:
+		# calculate midpoint
+		mid = (left + right) // 2
+		
+		if nums[mid] == target:
+			return mid
+		
+		# check if left part is sorted
+		if nums[left] <= nums[mid]:
+			# check if target is in [left----target----midpoint]
+			if nums[left] <= target and target < nums[mid]:
+				right = mid - 1
+			else:
+				left = mid + 1
+		else:
+			# right part is sorted
+			# check if target is in [mid----target----right]
+			if nums[mid] < target and target <= nums[right]:
+				left = mid + 1
+			else:
+				right = mid - 1
+	# Not exist
+	return -1
