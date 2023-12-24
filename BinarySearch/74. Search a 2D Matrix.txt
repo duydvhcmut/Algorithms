@@ -1,0 +1,50 @@
+Medium
+
+You are given an m x n integer matrix matrix with the following two properties:
+
+Each row is sorted in non-decreasing order.
+The first integer of each row is greater than the last integer of the previous row.
+Given an integer target, return true if target is in matrix or false otherwise.
+
+You must write a solution in O(log(m * n)) time complexity.
+
+Input: matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3
+Output: true
+
+Input: matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 13
+Output: false
+
+Solution:
+This is a binary search problem. We can loop through each row and do binary search. Time complexity would be O(m*log(n)).
+A better way is to convert the array to 1x(mxn) array. Time complexity would be O(log(m*n)).
+
+
+class Solution(object):
+    def searchMatrix(self, matrix, target):
+        """
+        :type matrix: List[List[int]]
+        :type target: int
+        :rtype: bool
+        """
+        if not matrix or not matrix[0]:
+            return False
+        m = len(matrix)
+        n = len(matrix[0])
+
+        left = 0
+        right = m * n - 1
+        while left <= right:
+            mid = (left + right) // 2
+			# above example, mid = 3 then i = 0 -> first row
+            i = mid // n
+            j = mid % n
+            if matrix[i][j] == target:
+                return True
+            elif matrix[i][j] > target:
+                right = mid - 1
+            else:
+                left = mid + 1
+        return False
+		
+Time complexity: O(log(m*n)) because we group mxn matrix to 1x(mxn) matrix
+Space complexity: O(1)
