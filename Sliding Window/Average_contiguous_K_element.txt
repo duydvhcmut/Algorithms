@@ -1,0 +1,51 @@
+# Given an non-empty array, find the average of all contiguous subarrays of size ‘K’ in it.
+Example:
+
+[1, 3, 2, 6, -1, 4, 1, 8, 2], K = 5
+
+Should return [2.2, 2.8, 2.4, 3.6, 2.8]
+
+
+Brute Force:
+
+class Solution:
+    def average_k_elements_bf(self, input_array, k):
+        n = len(input_array)
+        output = []
+        sum_value = 0
+        # [1 2 3], k = 2
+        for i in range(n - k + 1):
+            for j in range(i, i + k):
+                sum_value += input_array[j]
+            output.append(sum_value / k)
+            sum_value = 0
+        return output
+
+Time complexity: O(K*N)
+Space complexity: O(N - K + 1) because we store the result to output
+
+Sliding Window:
+
+class Solution:
+    def average_k_elements(self, input_array, k):
+        window_start = 0
+        n = len(input_array)
+        window_sum = 0
+        output = []
+        for i in range(n):
+            window_sum += input_array[i]
+            # [1 2 3], k = 2, i > 1 then move window_start
+            if i >= k - 1:
+                output.append(window_sum / k)
+                window_sum -= input_array[window_start]
+                window_start += 1
+        return output
+
+
+if __name__ == '__main__':
+    solution = Solution()
+    output = solution.average_k_elements([1, 3, 2, 6, -1, 4, 1, 8, 2], 5)
+    print(output)
+
+Time complexity: O(N)
+Space complexity: O(N - K + 1) because we store the result to output

@@ -24,6 +24,8 @@
 
 ## Sliding Window
  - Longest Substring Without Repeating Characters
+ - Average contiguous K elements
+ - Smallest contiguous subarray
  
 ## String
  - Roman to Integer

@@ -1,0 +1,28 @@
+# Given an array of positive numbers and a positive number ‘S’, find the length of the smallest contiguous subarray whose sum is greater than or equal to ‘S’. 
+# Return 0, if no such subarray exists.
+
+# Example 1:
+
+# Input: [2, 1, 5, 2, 3, 2], S=7 
+# Output: 2
+# Explanation: The smallest subarray with a sum great than or equal to '7' is [5, 2].
+
+
+class Solution:
+    def smallest_k_subarray(self, input_array, S):
+        window_start = 0
+        n = len(input_array)
+        window_sum = 0
+        result = sys.maxsize
+        for i in range(n):
+            window_sum += input_array[i]
+            # [1 2 3], S = 2, if sum > 2 then move window_start
+            while window_sum >= S:
+                result = min(result, i - window_start + 1)
+                window_sum -= input_array[window_start]
+                window_start += 1
+		
+        return result == sys.maxsize or result
+
+Time complexity: O(N)
+Space complexity: O(1)
