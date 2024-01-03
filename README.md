@@ -19,6 +19,9 @@
 ## LinkedList
  - Add Two Numbers - Linked List
 
+## Stack
+ - Valid Parentheses
+
 ## Sliding Window
  - Longest Substring Without Repeating Characters
  
