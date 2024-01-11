@@ -1,0 +1,50 @@
+You are given a string s and an integer k. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most k times.
+
+Return the length of the longest substring containing the same letter you can get after performing the above operations.
+
+ 
+
+Example 1:
+
+Input: s = "ABAB", k = 2
+Output: 4
+Explanation: Replace the two 'A's with two 'B's or vice versa.
+Example 2:
+
+Input: s = "AABABBA", k = 1
+Output: 4
+Explanation: Replace the one 'A' in the middle with 'B' and form "AABBBBA".
+The substring "BBBB" has the longest repeating letters, which is 4.
+There may exists other ways to achieve this answer too.
+
+
+Sliding window
+
+Find the longest string with the total number of all characters - the number of character with the highest number.
+
+class Solution(object):
+    def characterReplacement(self, s, k):
+        """
+        :type s: str
+        :type k: int
+        :rtype: int
+        """
+        window_start = 0
+        seen = {}
+        max_len = 0
+        # "ABCAACD", K = 2
+        for window_end, value in enumerate(s):
+            seen[value] = seen.get(value, 0) + 1
+            while sum(seen.values()) - max(seen.values()) > k:
+                left_char = s[window_start]
+                # move the window to the right
+                window_start += 1
+                seen[left_char] -= 1
+                # remove value from seen if seen[value] == 0
+                if seen[left_char] == 0:
+                    del seen[left_char]
+            max_len = max(max_len, window_end - window_start + 1)
+        return max_len
+
+Time complexity: O(N)
+Space complexity: O(K)but we have limited letters in the alphabet so we can say it is O(1)

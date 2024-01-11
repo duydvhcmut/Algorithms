@@ -1,0 +1,43 @@
+Given a string, find the length of the longest substring in it with no more than K distinct characters.
+
+Example 1:
+
+Input: String="araaci", K=2
+Output: 4
+Explanation: The longest substring with no more than '2' distinct characters is "araa".
+Example 2:
+
+Input: String="araaci", K=1
+Output: 2
+Explanation: The longest substring with no more than '1' distinct characters is "aa".
+Example 3:
+
+Input: String="cbbebi", K=3
+Output: 5
+Explanation: The longest substrings with no more than '3' distinct characters are "cbbeb" & "bbebi".
+
+def longest_string(input_str, k):
+    window_start = 0
+    max_length = 0
+    seen = {}
+    # "ababbc", k = 2
+    for window_end in range(len(input_str)):
+        right_char = input_str[window_end]
+        seen[right_char] = seen.get(right_char, 0) + 1
+
+        while len(seen) > k:
+            left_char = input_str[window_start]
+            seen[left_char] -= 1
+            if seen[left_char] == 0:
+                del seen[left_char]
+            window_start += 1
+        
+        max_length = max(max_length, window_end - window_start + 1)
+    return max_length
+
+input_str = "araaci"
+k = 2
+print(longest_string(input_str, k))
+
+Time complexity: O(N)
+Space complexity: O(K) as we store maximum K + 1 characters

@@ -10,6 +10,8 @@
 ## Bit Manipulation
  - Sum of Two Integers - Mask
 
+## DFS
+ - Same Tree
 ## KMP
  - Find the Index of the First Occurrence in a String
 
@@ -21,13 +23,20 @@
 
 ## Stack
  - Valid Parentheses
+ - Implement Queue using Stacks
+
+## Queue
+ - First Unique Character in a String
+ - Number of Recent Calls
+ - Implement Stack using Queues
 
 ## Sliding Window
  - Longest Substring Without Repeating Characters
  - Average contiguous K elements
  - Smallest contiguous subarray
- 
-## String
- - Roman to Integer
- - Longest Common Prefix
- - Find the Index of the First Occurrence in a String
+ - Longest Substring with K Distinct Characters
+ - Fruit Into Baskets
+ - Longest Repeating Character Replacement
+ - Max Consecutive Ones III
+ - Permutation in String
+ - Contains Duplicate II
